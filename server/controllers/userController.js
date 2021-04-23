@@ -1,5 +1,7 @@
 const UserSchema = require('../models/Users');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const newUsers = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -15,7 +17,6 @@ const newUsers = async (req, res) => {
       });
     }
     const existingUser = await UserSchema.findOne({ email });
-    console.log(existingUser);
     if (existingUser) {
       return res.status(400).json({
         errorMsg: 'Email already registered',
@@ -25,7 +26,6 @@ const newUsers = async (req, res) => {
     // * hash the password
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-    console.log(passwordHash);
 
     // * save a new user to the database
     const newUser = new UserSchema({
@@ -34,7 +34,23 @@ const newUsers = async (req, res) => {
       password: passwordHash,
     });
     const savedUser = await newUser.save();
-    res.status(200).json(savedUser);
+    res.status(200);
+
+    // ! sign the token
+    const token = jwt.sign(
+      {
+        user: savedUser._id,
+      },
+      process.env.JWT_SECRET
+    );
+    console.log(token);
+
+    // ! send the token in a http only cookie
+    res
+      .cookie('token', token, {
+        httpOnly: true,
+      })
+      .send();
   } catch (error) {
     // ! don't send the error on the frontend for security reasons
     res.status(500).json({ msg: error.message });
