@@ -1,7 +1,9 @@
 const UserSchema = require('../models/Users');
+const bcrypt = require('bcryptjs');
 const newUsers = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    // ? validated the fields before storing
     if (!name || !email || !password) {
       return res
         .status(400)
@@ -19,6 +21,20 @@ const newUsers = async (req, res) => {
         errorMsg: 'Email already registered',
       });
     }
+
+    // * hash the password
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+    console.log(passwordHash);
+
+    // * save a new user to the database
+    const newUser = new UserSchema({
+      name,
+      email,
+      password: passwordHash,
+    });
+    const savedUser = await newUser.save();
+    res.status(200).json(savedUser);
   } catch (error) {
     // ! don't send the error on the frontend for security reasons
     res.status(500).json({ msg: error.message });
