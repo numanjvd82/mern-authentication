@@ -14,4 +14,13 @@ const saveCustomer = async (req, res) => {
   }
 };
 
-module.exports = { saveCustomer };
+const getCustomer = async (req, res) => {
+  try {
+    const customers = await CustomerSchema.find();
+    res.status(200).json(customers);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports = { saveCustomer, getCustomer };
