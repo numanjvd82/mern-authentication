@@ -22,31 +22,35 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Register a new Account</h1>
-      <input
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        type="text"
-        name="name"
-        placeholder="Type your name"
-      />
-      <input
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        type="email"
-        name="email"
-        placeholder="Type your email"
-      />
-      <input
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        type="password"
-        name="password"
-        placeholder="Type your password"
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <div className="container">
+      <form onSubmit={handleSubmit}>
+        <h1>Register a new Account</h1>
+        <input
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          type="text"
+          name="name"
+          placeholder="Type your name"
+        />
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          type="email"
+          name="email"
+          placeholder="Type your email"
+        />
+        <input
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          type="password"
+          name="password"
+          placeholder="Type your password"
+        />
+        <button className="btn submit-btn" type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
 
