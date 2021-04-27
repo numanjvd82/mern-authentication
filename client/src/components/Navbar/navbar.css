@@ -1,0 +1,23 @@
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav {
+  background: #000;
+  height: 60px;
+  padding: 0.5rem;
+}
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link-btn {
+  color: white;
+}
