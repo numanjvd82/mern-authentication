@@ -115,4 +115,19 @@ const logUsersOut = (req, res) => {
     .send();
 };
 
-module.exports = { newUsers, logUsersIn, logUsersOut };
+const isLoggedIn = (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) {
+      return res.status(200).json(false);
+    }
+    jwt.verify(token, process.env.JWT_SECRET);
+    res.send(true);
+  } catch (error) {
+    console.log(error);
+    res.status(200).json(false);
+  }
+};
+
+module.exports = { newUsers, logUsersIn, logUsersOut, isLoggedIn };
