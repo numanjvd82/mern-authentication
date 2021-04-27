@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Form from './components/Form/Form';
+import Form from './components/Register/Register';
 import Navbar from './components/Navbar/Navbar';
 
 const Router = () => {
